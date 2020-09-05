@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PropTypes from 'prop-types'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-function App() {
+import GlobalStyles from './GlobalStyles';
+
+// All Pages
+import HomePage from './pages/HomePage';
+import UserDetail from './pages/UserDetail';
+import NotFoundPage from './pages/NotFoundPage';
+
+function App(props: any) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={props.store}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/user/:id" component={UserDetail} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </Router>
+      <GlobalStyles />
+    </Provider>
+    
   );
+}
+
+App.propTypes = {
+  history: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
 }
 
 export default App;
