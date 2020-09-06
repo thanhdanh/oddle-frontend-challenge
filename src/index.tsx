@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { history } from './history';
 import configureStore from './redux/store';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +13,7 @@ const store = configureStore();
 ReactDOM.render(
   <ThemeProvider theme={theme}>   
     <CssBaseline />
-    <App history={history} store={store} />
+    <App store={store} />
   </ThemeProvider>,
   document.getElementById('root')
 );

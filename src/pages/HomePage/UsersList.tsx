@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { IUser } from '../../redux/types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,6 +10,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
+
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import actions from './../../redux/actions';
 
 import LoadingIndicator from '../../components/LoadingIndicator';
 
@@ -18,6 +22,7 @@ interface UserListProps {
     loading: boolean;
     error?: boolean;
     users?: IUser[];
+    setCurrentViewuser: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -34,9 +39,10 @@ const useStyles = makeStyles((theme) => ({
 }));
   
 
-function UsersList({ loading, error, users }: UserListProps) {
+function UsersList({ loading, error, users, setCurrentViewuser }: UserListProps) {
     const classes = useStyles();
-    
+    const history = useHistory();
+
     if (loading) {
         return <List className={classes.root}>
             <LoadingIndicator />
@@ -53,10 +59,16 @@ function UsersList({ loading, error, users }: UserListProps) {
     }
 
     if (users) {
+        if (!users.length) {
+            return (
+                <h3>No result</h3>
+            )
+        }
+
         return (
             <List className={classes.root}>
                 <Grid container spacing={3}>
-                    {users && users.length && users.map(
+                    {users.map(
                         user => 
                         (
                             <Grid item xs={12} sm={6} key={`${user.id}-${user.login}`}>
@@ -68,7 +80,10 @@ function UsersList({ loading, error, users }: UserListProps) {
                                         primary={user.login} 
                                     />
                                     <ListItemSecondaryAction>
-                                        <Button variant="outlined" size="small" onClick={() => { alert('clicked') }}>View</Button>
+                                        <Button variant="outlined" size="small" onClick={() => { 
+                                            setCurrentViewuser(user);
+                                            history.push(`/user/${user.login}`) 
+                                        }}>View</Button>
                                     </ListItemSecondaryAction>
                                 </ListItem>
                             </Grid>
@@ -81,10 +96,13 @@ function UsersList({ loading, error, users }: UserListProps) {
     return null;
 }
 
-UsersList.propTypes = {
-    loading: PropTypes.bool,
-    error: PropTypes.bool,
-    users: PropTypes.array,
-};
+const withConnect = connect(
+    null,
+    (dispatch: Dispatch) => ({
+        setCurrentViewuser: (user: IUser) => {
+            dispatch(actions.SET_CURRENT_USER(user))
+        }
+    }),
+);
 
-export default UsersList;
+export default withConnect(UsersList);

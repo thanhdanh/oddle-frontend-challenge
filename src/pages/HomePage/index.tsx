@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+
 import Image from './../../components/Image';
 
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import SearchBar from './SearchBar';
-import styled from 'styled-components';
-import UsersList from './UsersList';
-import Pagination from '@material-ui/lab/Pagination';
 import Box from '@material-ui/core/Box';
 
+import SearchBar from './SearchBar';
+import UsersList from './UsersList';
+import Pagination from './../../components/Pagination'
+
 import { IState, IUser } from './../../redux/types';
-import { PER_PAGE } from '../../utils/constants';
 
 import actions from './../../redux/actions';
 
@@ -55,13 +56,13 @@ const HomePage = (props: HomePageProps) => {
                 </Typography>
                 <SearchBar onChange={props.onChangeLoginName} onSearch={props.onSubmitSearch} />
                 {showResult && <UsersList users={props.users} loading={props.loading} />}
-                {showResult && 
+                {showResult && !props.loading &&
                 <Box display="flex" p={1}>
                     <Box  p={1} flexGrow={1}>
                         <Typography>Have {props.totalUsers} results</Typography>
                     </Box>
                     <Box p={1}>
-                        {props.totalUsers > 0 && <Pagination count={Math.ceil(props.totalUsers / PER_PAGE)} page={page} onChange={handleChangePage} />}
+                        <Pagination count={props.totalUsers} page={page} onChange={handleChangePage} />
                     </Box>
                 </Box>}
                 

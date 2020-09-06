@@ -16,7 +16,7 @@ function checkStatus(response: AxiosResponse) {
     throw error;
 }
 
-export default async function request(url: string, options?: AxiosRequestConfig) {
+export default async function request(url: string, options?: AxiosRequestConfig): Promise<any> {
     const response = await axios(url, options);
     const response_1 = checkStatus(response);
     return response_1.data;

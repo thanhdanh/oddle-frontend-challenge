@@ -7,7 +7,8 @@ export const constants = {
     LOAD_USERS: 'load-users',
     USERS_LOADED: 'users-loaded',
     USERS_LOADING_ERROR: 'users-loading-error',
-    SET_TOTAL_USERS: 'set-total-users'
+    SET_TOTAL_USERS: 'set-total-users',
+    SET_CURRENT_USER: 'set-current-user'
 }
 
 const actions = {
@@ -18,6 +19,7 @@ const actions = {
     USERS_LOADING_ERROR: createAction(constants.USERS_LOADING_ERROR),
     USERS_LOADED: createAction(constants.USERS_LOADED),
     SET_TOTAL_USERS: createAction(constants.SET_TOTAL_USERS),
+    SET_CURRENT_USER: createAction(constants.SET_CURRENT_USER),
 }
 
 export default actions;

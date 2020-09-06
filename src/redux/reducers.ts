@@ -8,6 +8,7 @@ export const defaultState: IState = {
     loginName: '',
     loading: false,
     totalUsers: 0,
+    currentUser: undefined,
 }
 
 const handlers: any = {
@@ -35,6 +36,12 @@ const handlers: any = {
         return {
             ...state,
             totalUsers: payload
+        }
+    },
+    [constants.SET_CURRENT_USER]: (state: IState, { payload } : { payload: IUser }): IState => {
+        return {
+            ...state,
+            currentUser: payload
         }
     },
 }

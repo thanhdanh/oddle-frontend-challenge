@@ -34,7 +34,10 @@ function SearchBar(props: SearchBarProps) {
     const classes = useStyles();
 
     return (
-        <Paper component="form" className={classes.root} onSubmit={() => props.onSearch()}>
+        <Paper component="form" className={classes.root} onSubmit={(e: React.ChangeEvent<unknown>) => {
+            e.preventDefault()
+            props.onSearch()
+        }}>
             <InputBase
                 className={classes.input}
                 placeholder="Search users by login name"
